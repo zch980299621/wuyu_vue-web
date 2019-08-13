@@ -1,17 +1,14 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
+    <Header></Header>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
-
+import Header from './pages/Header.vue'
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    Header
   }
 }
 </script>
