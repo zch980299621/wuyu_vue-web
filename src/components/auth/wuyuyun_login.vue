@@ -2,15 +2,13 @@
     <el-form class="login-form"  :model="ruleForm" status-icon :rules="rules" ref="ruleForm">
       <input type="text" name="x" style="width: 0px;position: absolute;height: 0px;">
       <el-form-item prop="name">
-        <span class="svg-container">
-          <svg-icon icon-class="user"></svg-icon>
-        </span>
-        <el-input type="text" v-model="ruleForm.name" auto-complete="off"  placeholder="用户名">
-          <i class="el-icon-user-solid"></i>
+        <span class="ant-input-prefix">
+        <el-input type="text" v-model="ruleForm.name" auto-complete="off"  placeholder="用户名" prefix-icon="el-icon-user">
         </el-input>
+        </span>
       </el-form-item>
       <el-form-item prop="pass">
-        <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="密码"></el-input>
+        <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="密码" prefix-icon="el-icon-goods"></el-input>
       </el-form-item>
       <el-form-item>
         <div class="checkbox">
@@ -84,9 +82,7 @@
     cursor: pointer;
     background-image: none;
     border: 1px solid #d9d9d9;
-    padding: 0 15px;
-    font-size: 14px;
-    border-radius: 4px;
+    padding: 0 15px;    border-radius: 4px;
     height: 32px;
     position: relative;
     transition: all .3s cubic-bezier(.645, .045, .355, 1);
@@ -97,6 +93,8 @@
   .ant-btn-primary{
     color: #fff;
     background-color: #1890ff;
+
+    font-size: 14px;
     border-color: #1890ff;
   }
 </style>

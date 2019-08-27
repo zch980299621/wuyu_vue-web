@@ -5,22 +5,107 @@
         <h5 class="my-0 mr-md-auto font-weight-normal text-white">
           <img class="logo" src="../../assets/images/wuyu-logo.png"> 物联网云网关管理平台
         </h5>
-        <nav>
-          <DropDownList>
-
-          </DropDownList>
+        <nav class="my-2 my-md-0">
+          <el-dropdown>
+            <button type="dashed"> <span>{{AttachOrg.party_name}}</span><i class="anticon anticon-down"></i></button>
+            <el-dropdown-menu >
+              <el-dropdown-item :class="{'ant-dropdown-menu-item-selected' : AttachOrg.party_id == AuthUser.userid }">
+                <a @click="partyChange({party_id: AuthUser.userid,party_type: 'personal', party_name: '个人'  })"></a>
+              </el-dropdown-item>
+              <el-checkbox v-for="item of Org" :key="item.id">
+                <el-dropdown-item :class="{'ant-dropdown-menu-item-selected': AttachOrg.party_id == item.name}">
+                  <a @click="partyChange({party_id: item.id, party_type: 'organization', party_name: item.name})">{{item.name}}</a>
+                </el-dropdown-item>
+              </el-checkbox>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <a class="p-3 text-white">
+            <el-badge>
+              <i class="fas fa-bell text-white" aria-hidden="true" style="font-size: 17px;" ></i>
+            </el-badge>
+          </a>
+          <a class="p-3 text-white">帮助与文档</a>
+          <el-dropdown placement="bottomRight">
+            <div style="width: 121px;height: 24.5px;float: left">
+            <a class="p-3 text-white ant-dropdown-link">
+              <el-avatar size="small" style="background-color: rgb(0, 189, 154);" icon="ant-avatar ant-avatar-sm ant-avatar-circle ant-avatar-icon ant-avatar-image" ></el-avatar>
+              {{AuthUser.real_name || AuthUser.nickname || AuthUser.username || AuthUser.userid }}<i class="anticon anticon-down"></i>
+            </a>
+            <el-dropdown-menu>
+              <el-dropdown-item>
+                <a rel="noopener noreferrer">个人中心</a>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <a rel="noopener noreferrer" href="/">平台首页</a>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <a rel="noopener noreferrer" @click="signout()">退出账号</a>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+            </div>
+          </el-dropdown>
         </nav>
       </div>
+    </div>
+    <div class="console-sidebar">
+      <div class="menu active" active="menu-selected">
+        <el-tooltip title="产品" placement="right">
+          <router-link to="/console/products" ><i class="fas fa-gem"></i></router-link>
+        </el-tooltip>
+      </div>
+      <div class="menu active" active="menu-selected">
+        <el-tooltip title="应用" placement="right">
+          <router-link to="/console/applications" ><i class="fab fa-adn"></i></router-link>
+        </el-tooltip>
+      </div>
+      <div class="menu active" active="menu-selected">
+        <el-tooltip title="组织" placement="right">
+          <router-link to="/console/party" ><i class="fas fa-user-friends"></i></router-link>
+        </el-tooltip>
+      </div>
+      <div class="menu active" active="menu-selected">
+        <el-tooltip title="消息" placement="right">
+          <router-link to="/console/news" >
+            <i class="fas fa-comment"></i>
+            <span class="message-count" v-if="message_count >0">{{message_count > 99 ? "99+" : message_count}}</span>
+          </router-link>
+        </el-tooltip>
+      </div>
+      <div class="menu setting" active="menu-selected" linkActiveClass="myActive">
+        <el-tooltip title="设置" placement="top">
+          <router-link to="/console/settings" ><i class="fas fa-cog fa-spin" aria-hidden="true"></i></router-link>
+        </el-tooltip>
+      </div>
+    </div>
+    <div class="console-content">
+      <Products ></Products>
     </div>
   </div>
 </template>
 
 <script>
-  import DropDownList from '../../components/common/dropDownList/DropDownList.vue'
+  import Products from './products/products.vue'
+  import Application from './applications/applications.vue'
+  import Party from './party/party.vue'
+  import News from './news/news.vue'
+  import Setting from './settings/settings.vue'
+
     export default {
         name: "console",
+      data(){
+        return{
+          AttachOrg: '',
+          AuthUser: '',
+          Org :[],
+          message_count : 0,
+        }
+      },
       components:{
-        DropDownList
+           Products,
+           Application,
+        Party,
+        News,
+        Setting
       },
     }
 </script>
@@ -157,6 +242,12 @@
     transform-origin: -10% center;
     font-family: tahoma;
   }
+  }
+  .active{
+
+    font-size: 28px;
+    color: antiquewhite;
+
   }
 
 </style>

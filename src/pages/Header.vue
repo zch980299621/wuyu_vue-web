@@ -11,7 +11,7 @@
       </nav>
       <router-link  slot="login" to="/login" class="btn btn-outline-primary btn-sm" v-if="is_guest">登录</router-link>
       <div v-else="!is_guest">
-        <el-dropdown>
+        <el-dropdown trigger="click">
           <a class="ant-dropdown-link" :style="{color : textColor}">
           </a>
           <el-dropdown-menu>
