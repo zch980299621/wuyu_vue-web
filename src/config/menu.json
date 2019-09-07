@@ -1,0 +1,45 @@
+{
+  "mainMenus": [{
+    "name": "应用",
+    "url": "/console/products",
+    "children": [{
+      "name": "产品列表",
+      "url": "/console/products"
+    }, {
+      "name": "设备管理",
+      "url": "/console/products"
+    }]
+  }],
+
+  "productMenus": [{
+    "name": "产品",
+    "url": "/console/products",
+    "children": [{
+      "name": "产品列表",
+      "url": "/console/products"
+    }, {
+      "name": "设备管理",
+      "url": "/console/products"
+    }]
+  }, {
+    "name": "",
+    "url": "/console/products",
+    "children": [{
+      "name": "功能定义",
+      "url": "/console/products"
+    }, {
+      "name": "设备管理",
+      "url": "/console/products"
+    }]
+  }, {
+    "name": "",
+    "url": "/console/products",
+    "children": [{
+      "name": "运行状态",
+      "url": "/console/products"
+    }, {
+      "name": "设备管理",
+      "url": "/console/products"
+    }]
+  }]
+}

@@ -7,14 +7,11 @@
         </h5>
         <nav class="my-2 my-md-0">
           <el-dropdown>
-            <button type="dashed"> <span>{{AttachOrg.party_name}}</span><i class="anticon anticon-down"></i></button>
-            <el-dropdown-menu >
-              <el-dropdown-item :class="{'ant-dropdown-menu-item-selected' : AttachOrg.party_id == AuthUser.userid }">
-                <a @click="partyChange({party_id: AuthUser.userid,party_type: 'personal', party_name: '个人'  })"></a>
-              </el-dropdown-item>
-              <el-checkbox v-for="item of Org" :key="item.id">
-                <el-dropdown-item :class="{'ant-dropdown-menu-item-selected': AttachOrg.party_id == item.name}">
-                  <a @click="partyChange({party_id: item.id, party_type: 'organization', party_name: item.name})">{{item.name}}</a>
+            <el-button type="dashed">个人<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-checkbox v-for="item of Org" :key="item.id" style="margin-left: 10px">
+                <el-dropdown-item :class="{'ant-dropdown-menu-item-selected': item.user}">
+                  <a @click="loadOrg">{{item.user}}</a>
                 </el-dropdown-item>
               </el-checkbox>
             </el-dropdown-menu>
@@ -26,11 +23,9 @@
           </a>
           <a class="p-3 text-white">帮助与文档</a>
           <el-dropdown placement="bottomRight">
-            <div style="width: 121px;height: 24.5px;float: left">
-            <a class="p-3 text-white ant-dropdown-link">
-              <el-avatar size="small" style="background-color: rgb(0, 189, 154);" icon="ant-avatar ant-avatar-sm ant-avatar-circle ant-avatar-icon ant-avatar-image" ></el-avatar>
-              {{AuthUser.real_name || AuthUser.nickname || AuthUser.username || AuthUser.userid }}<i class="anticon anticon-down"></i>
-            </a>
+            <div style="width: 121px;height: 20px;float: left">
+              <el-avatar icon="el-icon-user-solid" size="small"></el-avatar>
+              <span class="el-dropdown-link">admin</span><i class="el-icon-arrow-down el-icon--right"></i>
             <el-dropdown-menu>
               <el-dropdown-item>
                 <a rel="noopener noreferrer">个人中心</a>
@@ -47,27 +42,27 @@
         </nav>
       </div>
     </div>
-    <div class="console-sidebar">
+    <div class="console-sidebar" >
       <div class="menu active" active="menu-selected">
         <el-tooltip title="产品" placement="right">
-          <router-link to="/console/products" ><i class="fas fa-gem"></i></router-link>
+          <router-link to="/console/products"  :class.native="{active: ctype ==1 }" @click.native="loadComponent(1)"><i class="fas fa-gem"></i></router-link>
         </el-tooltip>
       </div>
       <div class="menu active" active="menu-selected">
         <el-tooltip title="应用" placement="right">
-          <router-link to="/console/applications" ><i class="fab fa-adn"></i></router-link>
+          <router-link to="/console/applications"  :class.native="{active: ctype ==2 }" @click.native="loadComponent(2)"><i class="fab fa-adn"></i></router-link>
         </el-tooltip>
       </div>
-      <div class="menu active" active="menu-selected">
-        <el-tooltip title="组织" placement="right">
-          <router-link to="/console/party" ><i class="fas fa-user-friends"></i></router-link>
+      <div class="menu active" active="menu-selected" @click="drawer = !drawer">
+        <el-tooltip title="组织" placement="right" >
+          <router-link to="/console/party" :class.native="{active: ctype ==3 }" @click.native="loadComponent(3)" ><i class="fas fa-user-friends"></i></router-link>
         </el-tooltip>
       </div>
-      <div class="menu active" active="menu-selected">
-        <el-tooltip title="消息" placement="right">
-          <router-link to="/console/news" >
+      <div class="menu active" active="menu-selected" >
+        <el-tooltip title="消息" placement="right" >
+          <router-link to="/console/news" :class.native="{active: ctype ==4 }" @click.native="loadComponent(4)">
             <i class="fas fa-comment"></i>
-            <span class="message-count" v-if="message_count >0">{{message_count > 99 ? "99+" : message_count}}</span>
+            <span class="message-count" v-if="message_count > 0">{{message_count > 99 ? "99+" : message_count}}</span>
           </router-link>
         </el-tooltip>
       </div>
@@ -78,7 +73,11 @@
       </div>
     </div>
     <div class="console-content">
-      <Products ></Products>
+      <Products v-if="ctype ==1"></Products>
+      <Application v-else-if="ctype ==2"></Application>
+      <Party v-else-if="ctype ==3"></Party>
+      <News v-else-if="ctype ==4"></News>
+      <Setting v-else></Setting>
     </div>
   </div>
 </template>
@@ -94,23 +93,48 @@
         name: "console",
       data(){
         return{
-          AttachOrg: '',
-          AuthUser: '',
-          Org :[],
+          drawer: false,
+          ctype:1,
+          AttachOrg: [],
+          AuthUser: [],
           message_count : 0,
+          Org :[
+            {id :Date.now(), user:'个人' }
+            ],
         }
       },
-      components:{
-           Products,
-           Application,
-        Party,
-        News,
-        Setting
+      created(){
+        this.loadOrg()
       },
-    }
+      methods: {
+          loadOrg(){
+            var orgAttach = {id: Date.now(),user: this.Org.user};
+            var Org =JSON.parse(localStorage.getItem('cnts')||'[]');
+            Org.unshift(orgAttach);
+            localStorage.getItem('cmts',JSON.stringify(Org));
+          },
+        loadComponent(ctype) {
+          if (ctype != null) {
+            this.ctype = ctype;
+          }
+        }
+        },
+        components: {
+          Products,
+          Application,
+          Party,
+          News,
+          Setting
+        },
+      }
 </script>
 
 <style scoped lang="scss">
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #ffffff;
+    margin-top: 10px;
+  }
   $sidebar_menu_width: 60px;
   $sidebar_menu_height: 45px;
   .console-body {
@@ -248,6 +272,10 @@
     font-size: 28px;
     color: antiquewhite;
 
+  }
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
   }
 
 </style>

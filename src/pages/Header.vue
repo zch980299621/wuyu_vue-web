@@ -13,6 +13,7 @@
       <div v-else="!is_guest">
         <el-dropdown trigger="click">
           <a class="ant-dropdown-link" :style="{color : textColor}">
+            <el-avatar style="vertical-align: middle;background-color: rgb(0, 189, 154);"  icon="anticon anticon-user" ></el-avatar>
           </a>
           <el-dropdown-menu>
             <el-dropdown-item>

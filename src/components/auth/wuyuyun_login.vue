@@ -21,7 +21,7 @@
           <span>记住我</span>
         </label>
         <a href="javascript:;" class="login-form-forgot">忘记密码？</a>
-        <button  class="login-form-button ant-btn ant-btn-primary"  style="margin-top: 10px">登录</button>
+        <button  class="login-form-button ant-btn ant-btn-primary"  style="margin-top: 10px" @click="postUser">登录</button>
       </el-form-item>
     </el-form>
 </template>
@@ -51,8 +51,17 @@
            rules:{
              name: [{ validator: checkName, trigger: 'change'}],
              pass: [{ validator: validatePass, trigger: 'change'}],
-           }
+           },
          }
+      },
+      methods:{
+          postUser(){
+            var user = {id :Date.now(),user:this.ruleForm.name,password: this.ruleForm.password};
+            var list = JSON.parse(localStorage.getItem('cmts') || '[]');
+            list.push(user);
+            localStorage.setItem('cmts',JSON.stringify(list))
+
+          }
       },
       components:{
         Slider,

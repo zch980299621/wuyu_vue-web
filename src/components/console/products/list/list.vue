@@ -1,7 +1,7 @@
 <template>
   <div>
   <div class="view-breadcrumb">
-    <el-breadcrumb class="ant-breadcrumb">
+    <el-breadcrumb class="ant-breadcrumb" separator-class="el-icon-arrow-right">
       <span  style="display: block;float: left">当前位置：</span>
       <el-breadcrumb-item>
         <router-link to="/console/products">产品</router-link>
@@ -13,8 +13,8 @@
     <template><i class="anticon anticon-right"></i></template>
   </div>
   <div class="container-fluid">
-    <el-row class="mb-3 ant-row">
-      <el-col style="width: 30%">
+    <el-row class="mb-4 ant-row">
+      <el-col style="width: 25%">
         <button class="ant-btn ant-btn-primary" @click="showAddProductModal()" >
           <span><i class="el-icon-plus"></i> 新增产品 </span>
         </button>
