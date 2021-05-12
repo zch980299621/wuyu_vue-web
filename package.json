@@ -16,7 +16,7 @@
     "mini-ui": "0.0.1-alpha",
     "mint-ui": "^2.2.13",
     "popper.js": "^1.15.0",
-    "swiper": "^4.5.0",
+    "swiper": "^6.5.1",
     "vue": "^2.5.2",
     "vue-dynamic-dropdown": "^1.0.11",
     "vue-fontawesome-css": "^1.0.0",
